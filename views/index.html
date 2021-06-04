@@ -37,11 +37,7 @@
             <input class="submit" type="submit" value="Submit" />
         </form>
         <!-- DYNAMIC LIST -->
-        <ul id="array-rendering">
-            <li v-for="item in items">
-                {{ item.word }}
-            </li>
-        </ul>
+        <b-table id='array-rendering' striped hover :items="items"></b-table>
         <!-- END OF DYNAMIC LIST -->
         <div id="hints">
             <h4>today's tip:</h3>

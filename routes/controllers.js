@@ -47,7 +47,7 @@ client.connect(function(err) {
                 // res.send(result);
             }
         })
-        res.sendFile(path.join(__dirname, '/views/charts.html'));
+        res.sendFile(path.join(__dirname, '../views/charts.html'));
     });
 
     router.get('/getData', function(req, res) {
@@ -75,7 +75,7 @@ client.connect(function(err) {
     });
 
     router.get('/myWords', function(req, res) {
-        res.sendFile(path.join(__dirname, '/views/words.html'));
+        res.sendFile(path.join(__dirname, '../views/words.html'));
     });
 });
 
