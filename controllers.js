@@ -1,24 +1,21 @@
+// Server essential 
 const express = require('express');
+var router = express.Router();
 var bodyParser = require('body-parser');
 const path = require('path');
-
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-
 const app = express();
-const port = process.env.PORT || 8080;
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/static", express.static('./static/'));
 
-// sendFile will go here
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/views/index.html'));
-});
+// DB essential
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
+// DB config
+const url = 'mongodb://localhost:27017';
+const client = new MongoClient(url);
 const dbName = 'myDictionary';
 const collName = 'words';
 
@@ -29,7 +26,7 @@ client.connect(function(err) {
 
     let HtmlWord = '';
     let HtmlMeaning = '';
-    app.post('/', function(req, res) {
+    router.post('/', function(req, res) {
         HtmlWord = req.body.word;
         HtmlMeaning = req.body.meaning;
         let myobj = { word: HtmlWord, meaning: HtmlMeaning };
@@ -40,7 +37,7 @@ client.connect(function(err) {
         res.redirect('back');
     });
 
-    app.get('/myCharts', function(req, res) {
+    router.get('/myCharts', function(req, res) {
         db.collection("words").find({}).toArray(function(err, result) {
             if (err) {
                 res.send(err);
@@ -53,7 +50,7 @@ client.connect(function(err) {
         res.sendFile(path.join(__dirname, '/views/charts.html'));
     });
 
-    app.get('/getData', function(req, res) {
+    router.get('/getData', function(req, res) {
         db.collection("words").find({}).toArray(function(err, result) {
             if (err) {
                 res.send(err);
@@ -65,7 +62,7 @@ client.connect(function(err) {
         })
     });
 
-    app.get('/getWord', function(req, res) {
+    router.get('/getWord', function(req, res) {
         db.collection("words").find({}, { "word": 1 }).toArray(function(err, result) {
             if (err) {
                 res.send(err);
@@ -77,10 +74,9 @@ client.connect(function(err) {
         })
     });
 
-    app.get('/myWords', function(req, res) {
+    router.get('/myWords', function(req, res) {
         res.sendFile(path.join(__dirname, '/views/words.html'));
     });
 });
 
-app.listen(port);
-console.log('Server started at http://localhost:' + port);
+module.exports = router;

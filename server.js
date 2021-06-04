@@ -1,19 +1,20 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+var bodyParser = require('body-parser');
+const path = require('path');
 
-app.use(express.static('public'));
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/static", express.static('./static/'));
 
 //Routes
 app.use(require('./routes'));  //http://127.0.0.1:8000/    http://127.0.0.1:8000/about
 
-//app.use("/user",require('./routes'));  //http://127.0.0.1:8000/user  http://127.0.0.1:8000/user/about
-
-
-var server = app.listen(8000, function () {
-
-  var host = server.address().address
-  var port = server.address().port
-
-  console.log("Example app listening at http://%s:%s", host, port)
-
-})
+app.listen(port);
+console.log('Server started at http://localhost:' + port);

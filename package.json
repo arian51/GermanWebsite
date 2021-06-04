@@ -2,7 +2,7 @@
   "name": "essentialwords",
   "version": "1.0.0",
   "description": "An node.js app for storing the words. It does also calculate the number of accuration of each word.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
