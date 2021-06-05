@@ -29,10 +29,12 @@ client.connect(function(err) {
 
     let HtmlWord = '';
     let HtmlMeaning = '';
+    let HtmlContext = '';
     app.post('/', function(req, res) {
         HtmlWord = req.body.word;
         HtmlMeaning = req.body.meaning;
-        let myobj = { word: HtmlWord, meaning: HtmlMeaning };
+        HtmlContext = req.body.context;
+        let myobj = { word: HtmlWord, meaning: HtmlMeaning, context: HtmlContext };
         db.collection("words").insertOne(myobj, function(err, res) {
             if (err) throw err;
             console.log("1 document inserted");
@@ -83,4 +85,4 @@ client.connect(function(err) {
 });
 
 app.listen(port);
-console.log('Server started at http://localhost:' + port);
+console.log('index started at http://localhost:' + port);
